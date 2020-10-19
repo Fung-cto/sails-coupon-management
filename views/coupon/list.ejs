@@ -1,0 +1,37 @@
+<!--index.ejs-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Q-Pon Create</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+</head>
+
+<section class="section">
+    <div class="container">
+        <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <tr>
+                <strong>
+                    <td>ID</td>
+                    <td>Title</td>
+                    <td>Restaurant</td>
+                    <td></td>
+                </strong>
+            </tr>
+            <% coupons.forEach( function(coupon) { %>
+
+            <tr>
+                <td><%= coupon.id %></td>
+                <td><%= coupon.title %></td>
+                <td><%= coupon.restaurant %></td>
+                <td><a href="/coupon/update/<%= coupon.id %>">Update</td>
+            </tr>
+
+            <% }); %>
+
+        </table>
+    </div>
+</section>
