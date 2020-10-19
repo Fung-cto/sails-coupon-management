@@ -1,7 +1,7 @@
 <!--paginate.ejs-->
 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-    <% persons.forEach( function(person) { %>
-        <tr><td><%= person.name %></td><td><%= person.age %></td></tr>
+    <% coupons.forEach( function(coupon) { %>
+        <tr><td><%= coupon.title %></td><td><%= coupon.quota %></td></tr>
     <% }); %>
 </table>
 <nav class="pagination" role="navigation" aria-label="pagination">
@@ -47,7 +47,7 @@
         var limit = Math.max(parseInt("<%= req.query.limit %>"), 2) || 2;
         var offset = Math.max(parseInt("<%= req.query.offset %>"), 0) || 0;
 
-        var baseUrl = "/person/paginate?limit=" + limit + "&offset=";
+        var baseUrl = "/coupon/paginate?limit=" + limit + "&offset=";
 
         firstLink.href = baseUrl + 0;
         previousButton.href = baseUrl + (offset - limit);

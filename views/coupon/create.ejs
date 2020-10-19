@@ -12,8 +12,6 @@
 
     </head>
 
-    <section class="section">
-        <div class="container">
             <div class="columns">
                 <div class="column is-half">
                     <div class="field">
@@ -30,25 +28,32 @@
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label class="label">Region</label>
-                        <div class="control">
-                            <div class="select">
-                                <select name="region" onchange="regionSelected(this.value)" required>
-                                    <option value="HK Island">HK Island</option>
-                                    <option value="Kowloon">Kowloon</option>
-                                    <option value="New Territories">New Territories</option>
-                                </select>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Region</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select name="region" onchange="regionSelected(this.value)" required>
+                                            <option value="">Select Region</option>
+                                            <option value="HK Island">HK Island</option>
+                                            <option value="Kowloon">Kowloon</option>
+                                            <option value="New Territories">New Territories</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <label class="label">Mail</label>
-                        <div class="control">
-                            <div class="select">
-                                <select id="mail" disabled>
-                                </select>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Mall</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select name="mail" id="mail" disabled>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,17 +66,23 @@
                     </div>
                 </div>
                 <div class="column is-half">
-                    <div class="field">
-                        <label class="label">Quota</label>
-                        <div class="control">
-                            <input class="input" type="number" name="quota" required>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Quota</label>
+                                <div class="control">
+                                    <input class="input" type="number" name="quota" required>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="field">
-                        <label class="label">Coins</label>
-                        <div class="control">
-                            <input class="input" type="number" name="coins" required>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Coins</label>
+                                <div class="control">
+                                    <input class="input" type="number" name="coins" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -96,9 +107,6 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-    </section>
 </form>
 <script>
     var hk = ["IFC Mall", "Pacific Place"];

@@ -19,7 +19,8 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
+  //'/': { view: 'pages/homepage' },
+  '/': { view: 'pages/index' },
 
 
   /***************************************************************************
@@ -35,7 +36,7 @@ module.exports.routes = {
  'GET /coupon/create': 'CouponController.create',
  'POST /coupon/create': 'CouponController.create',
 
- 'GET /': 'CouponController.list',
+ //'GET /': 'CouponController.list',
  'GET /coupon': 'CouponController.list',
  'GET /coupon/list': 'CouponController.list',
  'GET /coupon/json': 'CouponController.json',
@@ -45,7 +46,7 @@ module.exports.routes = {
  'GET /coupon/update/:id': 'CouponController.update',
  'POST /coupon/update/:id': 'CouponController.update',
 
- 'GET /person/search': 'PersonController.search',
- 'GET /person/paginate': 'PersonController.paginate',
+ 'GET /coupon/search': 'CouponController.search',
+ 'GET /coupon/paginate': 'CouponController.paginate',
 
 };

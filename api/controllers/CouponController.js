@@ -69,14 +69,14 @@ module.exports = {
 
         var whereClause = {};
 
-        if (req.query.name) whereClause.name = { contains: req.query.name };
+        if (req.query.title) whereClause.title = { contains: req.query.title };
 
-        var parsedAge = parseInt(req.query.age);
-        if (!isNaN(parsedAge)) whereClause.age = parsedAge;
+        var parsedCoins = parseInt(req.query.coins);
+        if (!isNaN(parsedCoins)) whereClause.coins = parsedCoins;
 
         var thoseCoupons = await Coupon.find({
             where: whereClause,
-            sort: 'name'
+            sort: 'title'
         });
 
         return res.view('coupon/list', { coupons: thoseCoupons });

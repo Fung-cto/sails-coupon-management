@@ -1,116 +1,128 @@
 <!--update.ejs-->
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Q-Pon Create</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+</head>
+
 <form action="/coupon/update/<%= coupon.id %>" method="post">
+    <div class="columns">
+        <div class="column is-half">
+            <div class="field">
+                <label class="label">Title</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" value="<%= coupon.title%>" required>
+                </div>
+            </div>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Q-Pon Create</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-            crossorigin="anonymous" />
-
-    </head>
-
-    <section class="section">
-        <div class="container">
+            <div class="field">
+                <label class="label">Restaurant</label>
+                <div class="control">
+                    <input class="input" type="text" name="restaurant" value="<%= coupon.restaurant%>" required>
+                </div>
+            </div>
             <div class="columns">
-                <div class="column is-half">
-                    <div class="field">
-                        <label class="label">Title</label>
-                        <div class="control">
-                            <input class="input" type="text" name="title" required>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Restaurant</label>
-                        <div class="control">
-                            <input class="input" type="text" name="restaurant" required>
-                        </div>
-                    </div>
-
+                <div class="column">
                     <div class="field">
                         <label class="label">Region</label>
                         <div class="control">
                             <div class="select">
                                 <select name="region" onchange="regionSelected(this.value)" required>
-                                    <option value="HK Island">HK Island</option>
-                                    <option value="Kowloon">Kowloon</option>
-                                    <option value="New Territories">New Territories</option>
+                                    <option value="">Select Region</option>
+                                    <option value="HK Island" <% if (coupon.region == 'HK Island') { %>selected<% } %>>
+                                        HK
+                                        Island</option>
+                                    <option value="Kowloon" <% if (coupon.region == 'Kowloon') { %>selected<% } %>>
+                                        Kowloon
+                                    </option>
+                                    <option value="New Territories"
+                                        <% if (coupon.region == 'New Territories') { %>selected<% } %>>New
+                                        Territories
+                                    </option>
                                 </select>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Mail</label>
-                        <div class="control">
-                            <div class="select">
-                                <select id="mail" disabled>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Image</label>
-                        <div class="control">
-                            <input class="input" type="text" name="image" required>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-danger" type="submit">Delete</button>
                         </div>
                     </div>
                 </div>
-                <div class="column is-half">
+                <div class="column">
                     <div class="field">
-                        <label class="label">Quota</label>
+                        <label class="label">Mall</label>
                         <div class="control">
-                            <input class="input" type="number" name="quota" required>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Coins</label>
-                        <div class="control">
-                            <input class="input" type="number" name="coins" required>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Expiry Date</label>
-                        <div class="control">
-                            <input class="input" type="text" name="expiryDate" required>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Detail</label>
-                        <div class="control">
-                            <textarea name="detail" class="textarea" rows="4"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-link" type="submit">Submit</button>
+                            <div class="select">
+                                <select name="mail" id="mail">
+                                    <option value="<%= coupon.mail%>"><%= coupon.mail%></option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <div class="field">
+                <label class="label">Image</label>
+                <div class="control">
+                    <input class="input" type="text" name="image" value="<%= coupon.image%>" required>
+                </div>
+            </div>
         </div>
-    </section>
+        <div class="column is-half">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Quota</label>
+                        <div class="control">
+                            <input class="input" type="number" name="quota" value="<%= coupon.quota%>" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Coins</label>
+                        <div class="control">
+                            <input class="input" type="number" name="coins" value="<%= coupon.coins%>" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Expiry Date</label>
+                <div class="control">
+                    <input class="input" type="text" name="expiryDate" value="<%= coupon.expiryDate%>" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Detail</label>
+                <div class="control">
+                    <textarea name="detail" class="textarea" rows="4" value="<%= coupon.detail%>"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </form>
+<form action="/coupon/delete/<%= coupon.id %>" method="post">
+    <button class="button is-danger" type="submit">Delete</button>
+</form>
+
 <script>
-    var hk = ["IFC Mall", "Pacific Place"];
-    var kowloon = ["Times Square", "Elements", "Harbour City", "Festival Walk", "MegaBox", "APM"];
+    var hk = ["IFC Mall", "Pacific Place", "Times Square"];
+    var kowloon = ["Elements", "Harbour City", "Festival Walk", "MegaBox", "APM"];
     var nt = ["New Town Plaza", "Tsuen Wan Plaza"];
     function regionSelected(region) {
-        //alert(team);
+        //alert(region);
         var mailElem = document.getElementById("mail");
         mailElem.options.length = 0;
         if (region == "HK Island") {
@@ -140,6 +152,6 @@
         } else {
             mailElem.disabled = true;
         }
+
     }
 </script>
-
