@@ -26,6 +26,13 @@ module.exports = {
 
         return res.view('coupon/list', { coupons: everyones });
     },
+    // action - index
+    index: async function (req, res) {
+
+        var everyones = await Coupon.find();
+
+        return res.view('coupon/index', { coupons: everyones });
+    },
     // action - read
     read: async function (req, res) {
 
@@ -67,19 +74,45 @@ module.exports = {
     // search function
     search: async function (req, res) {
 
-        var whereClause = {};
+        var limit = Math.max(req.query.limit, 2) || 2;
+        var offset = Math.max(req.query.offset, 0) || 0;
 
-        if (req.query.title) whereClause.title = { contains: req.query.title };
-
-        var parsedCoins = parseInt(req.query.coins);
-        if (!isNaN(parsedCoins)) whereClause.coins = parsedCoins;
-
-        var thoseCoupons = await Coupon.find({
-            where: whereClause,
-            sort: 'title'
+        var someCoupons = await Coupon.find({
+            limit: limit,
+            skip: offset
         });
 
-        return res.view('coupon/list', { coupons: thoseCoupons });
+        var whereClause = {};
+
+        if (req.query.region) whereClause.region = { contains: req.query.region };
+
+        var parsedMaxCoins = parseInt(req.query.maxCoins);
+        var parsedMinCoins = parseInt(req.query.minCoins);
+        if ((!isNaN(parsedMaxCoins))&&(!isNaN(parsedMinCoins))) {
+            whereClause.coins = {'<=': parsedMaxCoins, '>=': parsedMinCoins };
+        } else if ((!isNaN(parsedMaxCoins))&&(isNaN(parsedMinCoins))){
+            whereClause.coins = {'<=': parsedMaxCoins };
+        } else if ((isNaN(parsedMaxCoins))&&(!isNaN(parsedMinCoins))){
+            whereClause.coins = {'>=': parsedMinCoins };
+        }
+
+        var parsedValidDate = parseInt(req.query.validOn);
+        console.log(parsedValidDate);
+        var parsedExpiryDate = parseInt(Coupon.expiryDate);
+        if (!isNaN(parsedValidDate)) whereClause.parsedExpiryDate = { '<=': parsedValidDate };
+
+        var thoseCoupons = await Coupon.find({
+            limit: limit,
+            skip: offset,
+            where: whereClause,
+            sort: 'region'
+        });
+
+        var count = await Coupon.count({
+            where: whereClause,
+        });
+
+        return res.view('coupon/paginate', { coupons: thoseCoupons, numOfRecords: count });
     },
     // action - paginate
     paginate: async function (req, res) {

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Q-Pon</title>
+
+</head>
+
+        <div class="columns is-multiline">
+
+            <div class="column is-one-third">
+                <h4 class="subtitle">HK Island</h4>
+                <% var count=0; %>
+                <% for (var i=coupons.length-1; i >= 0; i--) { %>
+                    <% var coupon= {region:coupons[i].region, id:coupons[i].id, image:coupons[i].image, restaurant:coupons[i].restaurant, coins:coupons[i].coins, title:coupons[i].title}; %>
+                <% if (coupon.region == 'HK Island' && count<2) {%>
+                    <% count++; %>
+                    <div class="card mb-4">
+                        <div class="card-image">
+                            <figure class="image is-4$dimensions">
+                                <a href="/coupon/read/<%= coupon.id %>"><img src="<%= coupon.image %>"
+                                        alt="Placeholder image"></a>
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="content">
+                                <h4><a href="/coupon/read/<%= coupon.id %>"><%= coupon.restaurant %></a></h4>
+                                <p><%= coupon.title %></p>
+                                <p>Coins: <%= coupon.coins %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+                <% } %>
+            </div>
+        
+            <div class="column is-one-third">
+                <h4 class="subtitle">Kowloon</h4>
+                <% var count=0; %>
+                <% for (var i=coupons.length-1; i >= 0; i--) { %>
+                    <% var coupon= {region:coupons[i].region, id:coupons[i].id, image:coupons[i].image, restaurant:coupons[i].restaurant, coins:coupons[i].coins, title:coupons[i].title}; %>
+                <% if (coupon.region == 'Kowloon' && count<2) {%>
+                    <% count++; %>
+                    <div class="card mb-4">
+                        <div class="card-image">
+                            <figure class="image is-4$dimensions">
+                                <a href="/coupon/read/<%= coupon.id %>"><img src="<%= coupon.image %>"
+                                        alt="Placeholder image"></a>
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="content">
+                                <h4><a href="/coupon/read/<%= coupon.id %>"><%= coupon.restaurant %></a></h4>
+                                <p><%= coupon.title %></p>
+                                <p>Coins: <%= coupon.coins %></p>
+                            </div>
+                        </div>
+                    </div>
+                
+                <% } %>
+                <% } %>
+            </div>
+  
+            <div class="column is-one-third">
+                <h4 class="subtitle">New Territories</h4>
+                <% var count=0; %>
+                <% for (var i=coupons.length-1; i >= 0; i--) { %>
+                    <% var coupon= {region:coupons[i].region, id:coupons[i].id, image:coupons[i].image, restaurant:coupons[i].restaurant, coins:coupons[i].coins, title:coupons[i].title}; %>
+                <% if (coupon.region == 'New Territories' && count<2) {%>
+                    <% count++; %>
+                    <div class="card mb-4">
+                        <div class="card-image">
+                            <figure class="image is-4by$dimensions">
+                                <a href="/coupon/read/<%= coupon.id %>"><img src="<%= coupon.image %>"
+                                        alt="Placeholder image"></a>
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <div class="content">
+                                <h4><a href="/coupon/read/<%= coupon.id %>"><%= coupon.restaurant %></a></h4>
+                                <p><%= coupon.title %></p>
+                                <p>Coins: <%= coupon.coins %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+                <% } %>
+            </div>
+
+        </div>

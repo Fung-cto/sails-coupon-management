@@ -1,7 +1,79 @@
 <!--paginate.ejs-->
+
+<div class="columns features is-vcentered is-multiline">
+    <% coupons.forEach( function(coupon) { %>
+    <div class="column is-4">
+        <div class="card is-shady">
+            <div class="card-image">
+                <figure class="image is-4by$dimensions">
+                    <a href="/coupon/read/<%= coupon.id %>"><img src="<%= coupon.image %>" alt="Placeholder image"></a>
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="content">
+                    <h3 class="title"><a href="/coupon/read/<%= coupon.id %>"><%= coupon.restaurant %></a></h3>
+                    <h5 class="subtitle"><%= coupon.title %></h5>
+                    <p>Coins: <%= coupon.coins %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+
+
+    <form action="/coupon/search?" method="get">
+
+        <div class="column">
+            <div class="field">
+                <label class="label">Region</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="region">
+                            <option value="">Select Region</option>
+                            <option value="HK Island">HK Island</option>
+                            <option value="Kowloon">Kowloon</option>
+                            <option value="New Territories">New Territories</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="field">
+                <label class="label">Max Coins</label>
+                <div class="control">
+                    <input class="input" type="number" name="maxCoins">
+                </div>
+            </div>
+        
+            <div class="field">
+                <label class="label">Min Coins</label>
+                <div class="control">
+                    <input class="input" type="number" name="minCoins">
+                </div>
+            </div>
+       
+            <div class="field">
+                <label class="label">Valid On</label>
+                <div class="control">
+                    <input class="input" type="text" name="validOn">
+                </div>
+            </div>
+        
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
     <% coupons.forEach( function(coupon) { %>
-        <tr><td><%= coupon.title %></td><td><%= coupon.quota %></td></tr>
+    <tr>
+        <td><%= coupon.title %></td>
+        <td><%= coupon.quota %></td>
+    </tr>
     <% }); %>
 </table>
 <nav class="pagination" role="navigation" aria-label="pagination">
@@ -46,8 +118,9 @@
         var numOfRecords = parseInt("<%= numOfRecords %>");
         var limit = Math.max(parseInt("<%= req.query.limit %>"), 2) || 2;
         var offset = Math.max(parseInt("<%= req.query.offset %>"), 0) || 0;
+        var where="region=<%= req.query.region %>&maxCoins=<%= req.query.maxCoins %>&minCoins=<%= req.query.minCoins %>&validOn=<%= req.query.validOn %>";
 
-        var baseUrl = "/coupon/paginate?limit=" + limit + "&offset=";
+        var baseUrl = "/coupon/search?"+where+"/limit=" + limit + "&offset=";
 
         firstLink.href = baseUrl + 0;
         previousButton.href = baseUrl + (offset - limit);
@@ -56,13 +129,13 @@
         nextLink.href = baseUrl + (offset + limit);
         nextButton.href = baseUrl + (offset + limit);
         lastLink.href = baseUrl + (Math.ceil(numOfRecords / limit) - 1) * limit;
-              
+
         var currentPageNumber = Math.floor(offset / limit) + 1;
 
         previousLink.innerHTML = currentPageNumber - 1;
         currentLink.innerHTML = currentPageNumber;
         nextLink.innerHTML = currentPageNumber + 1;
-        lastLink.innerHTML = Math.ceil(numOfRecords / limit); 
+        lastLink.innerHTML = Math.ceil(numOfRecords / limit);
 
         if (offset < limit) {
             previousButton.setAttribute("disabled", true);

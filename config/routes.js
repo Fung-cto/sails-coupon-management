@@ -20,7 +20,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   //'/': { view: 'pages/homepage' },
-  '/': { view: 'pages/index' },
+  //'/': { view: 'pages/index' },
 
 
   /***************************************************************************
@@ -36,7 +36,7 @@ module.exports.routes = {
  'GET /coupon/create': 'CouponController.create',
  'POST /coupon/create': 'CouponController.create',
 
- //'GET /': 'CouponController.list',
+ 'GET /': 'CouponController.index',
  'GET /coupon': 'CouponController.list',
  'GET /coupon/list': 'CouponController.list',
  'GET /coupon/json': 'CouponController.json',
