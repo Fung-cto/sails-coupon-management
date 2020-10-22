@@ -22,7 +22,7 @@ module.exports = {
     region: {
       type: "string"
     },
-    mail: {
+    mall: {
       type: "string"
     },
     image: {

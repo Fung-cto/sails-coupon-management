@@ -97,7 +97,7 @@ module.exports = {
         }
 
         var parsedValidDate = Date.parse(req.query.validOn);
-        console.log(parsedValidDate);
+        //console.log(parsedValidDate);
         //console.log(Date.parse(parsedValidDate));
         //console.log(Date.parse(expiryDate));
         //var parsedExpiryDate = Date.parse(req.params.expiryDate);

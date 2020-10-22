@@ -50,8 +50,8 @@
                         <label class="label">Mall</label>
                         <div class="control">
                             <div class="select">
-                                <select name="mail" id="mail">
-                                    <option value="<%= coupon.mail%>"><%= coupon.mail%></option>
+                                <select name="mall" id="mall">
+                                    <option value="<%= coupon.mall%>"><%= coupon.mall%></option>
                                 </select>
                             </div>
                         </div>
@@ -118,34 +118,34 @@
     var nt = ["New Town Plaza", "Tsuen Wan Plaza"];
     function regionSelected(region) {
         //alert(region);
-        var mailElem = document.getElementById("mail");
-        mailElem.options.length = 0;
+        var mallElem = document.getElementById("mall");
+        mallElem.options.length = 0;
         if (region == "HK Island") {
             hk.forEach(function (item) {
                 var option = document.createElement("option");
                 option.text = item;
                 option.value = item;
-                mailElem.add(option);
+                mallElem.add(option);
             });
-            mailElem.disabled = false;
+            mallElem.disabled = false;
         } else if (region == "Kowloon") {
             kowloon.forEach(function (item) {
                 var option = document.createElement("option");
                 option.text = item;
                 option.value = item;
-                mailElem.add(option);
+                mallElem.add(option);
             });
-            mailElem.disabled = false;
+            mallElem.disabled = false;
         } else if (region == "New Territories") {
             nt.forEach(function (item) {
                 var option = document.createElement("option");
                 option.text = item;
                 option.value = item;
-                mailElem.add(option);
+                mallElem.add(option);
             });
-            mailElem.disabled = false;
+            mallElem.disabled = false;
         } else {
-            mailElem.disabled = true;
+            mallElem.disabled = true;
         }
 
     }
