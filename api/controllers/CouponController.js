@@ -96,13 +96,8 @@ module.exports = {
             whereClause.coins = { '>=': parsedMinCoins };
         }
 
-        var parsedValidDate = Date.parse(req.query.validOn);
-        //console.log(parsedValidDate);
-        //console.log(Date.parse(parsedValidDate));
-        //console.log(Date.parse(expiryDate));
-        //var parsedExpiryDate = Date.parse(req.params.expiryDate);
-        //console.log(parsedExpiryDate);
-        if (!isNaN(parsedValidDate)) whereClause.expiryDate = { '<=': parsedValidDate };
+        var parsedValidDate = req.query.validOn;
+        if (parsedValidDate) whereClause.expiryDate = { '<=': parsedValidDate };
 
         var thoseCoupons = await Coupon.find({
             limit: limit,
