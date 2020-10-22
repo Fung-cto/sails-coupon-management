@@ -88,18 +88,21 @@ module.exports = {
 
         var parsedMaxCoins = parseInt(req.query.maxCoins);
         var parsedMinCoins = parseInt(req.query.minCoins);
-        if ((!isNaN(parsedMaxCoins))&&(!isNaN(parsedMinCoins))) {
-            whereClause.coins = {'<=': parsedMaxCoins, '>=': parsedMinCoins };
-        } else if ((!isNaN(parsedMaxCoins))&&(isNaN(parsedMinCoins))){
-            whereClause.coins = {'<=': parsedMaxCoins };
-        } else if ((isNaN(parsedMaxCoins))&&(!isNaN(parsedMinCoins))){
-            whereClause.coins = {'>=': parsedMinCoins };
+        if ((!isNaN(parsedMaxCoins)) && (!isNaN(parsedMinCoins))) {
+            whereClause.coins = { '<=': parsedMaxCoins, '>=': parsedMinCoins };
+        } else if ((!isNaN(parsedMaxCoins)) && (isNaN(parsedMinCoins))) {
+            whereClause.coins = { '<=': parsedMaxCoins };
+        } else if ((isNaN(parsedMaxCoins)) && (!isNaN(parsedMinCoins))) {
+            whereClause.coins = { '>=': parsedMinCoins };
         }
 
-        var parsedValidDate = parseInt(req.query.validOn);
+        var parsedValidDate = Date.parse(req.query.validOn);
         console.log(parsedValidDate);
-        var parsedExpiryDate = parseInt(Coupon.expiryDate);
-        if (!isNaN(parsedValidDate)) whereClause.parsedExpiryDate = { '<=': parsedValidDate };
+        //console.log(Date.parse(parsedValidDate));
+        //console.log(Date.parse(expiryDate));
+        //var parsedExpiryDate = Date.parse(req.params.expiryDate);
+        //console.log(parsedExpiryDate);
+        if (!isNaN(parsedValidDate)) whereClause.expiryDate = { '<=': parsedValidDate };
 
         var thoseCoupons = await Coupon.find({
             limit: limit,
@@ -114,21 +117,24 @@ module.exports = {
 
         return res.view('coupon/paginate', { coupons: thoseCoupons, numOfRecords: count });
     },
-    // action - paginate
-    paginate: async function (req, res) {
 
-        var limit = Math.max(req.query.limit, 2) || 2;
-        var offset = Math.max(req.query.offset, 0) || 0;
+    
 
-        var someCoupons = await Coupon.find({
-            limit: limit,
-            skip: offset
-        });
+// action - paginate
+paginate: async function (req, res) {
 
-        var count = await Coupon.count();
+    var limit = Math.max(req.query.limit, 2) || 2;
+    var offset = Math.max(req.query.offset, 0) || 0;
 
-        return res.view('coupon/paginate', { coupons: someCoupons, numOfRecords: count });
-    },
+    var someCoupons = await Coupon.find({
+        limit: limit,
+        skip: offset
+    });
+
+    var count = await Coupon.count();
+
+    return res.view('coupon/paginate', { coupons: someCoupons, numOfRecords: count });
+},
 
 };
 

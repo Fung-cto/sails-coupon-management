@@ -1,5 +1,10 @@
 <!--paginate.ejs-->
 
+<head>
+    <title>Q-Pon | Search</title>
+
+</head>
+
 <div class="columns features is-vcentered is-multiline">
     <% coupons.forEach( function(coupon) { %>
     <div class="column is-4">
@@ -55,7 +60,7 @@
             <div class="field">
                 <label class="label">Valid On</label>
                 <div class="control">
-                    <input class="input" type="text" name="validOn">
+                    <input class="input" type="date" name="validOn">
                 </div>
             </div>
         
@@ -68,14 +73,6 @@
     </form>
 </div>
 
-<table class="table is-bordered is-striped is-hoverable is-fullwidth">
-    <% coupons.forEach( function(coupon) { %>
-    <tr>
-        <td><%= coupon.title %></td>
-        <td><%= coupon.quota %></td>
-    </tr>
-    <% }); %>
-</table>
 <nav class="pagination" role="navigation" aria-label="pagination">
     <a class="pagination-previous" id="previousButton">Previous</a>
     <a class="pagination-next" id="nextButton">Next page</a>
@@ -120,7 +117,7 @@
         var offset = Math.max(parseInt("<%= req.query.offset %>"), 0) || 0;
         var where="region=<%= req.query.region %>&maxCoins=<%= req.query.maxCoins %>&minCoins=<%= req.query.minCoins %>&validOn=<%= req.query.validOn %>";
 
-        var baseUrl = "/coupon/search?"+where+"/limit=" + limit + "&offset=";
+        var baseUrl = "/coupon/search?"+ where +"&p?limit=" + limit + "&offset=";
 
         firstLink.href = baseUrl + 0;
         previousButton.href = baseUrl + (offset - limit);
