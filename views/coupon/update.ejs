@@ -105,12 +105,11 @@
             </div>
         </div>
     </div>
-
-
 </form>
-<form action="/coupon/delete/<%= coupon.id %>" method="post">
-    <button class="button is-danger" type="submit">Delete</button>
-</form>
+
+<!--form action="/coupon/delete/<%= coupon.id %>" method="post"-->
+    <button type="button" class="button is-danger" onclick="deleteCoupon('<%= coupon.id %>')">Delete</button>
+<!--/form-->
 
 <script>
     var hk = ["IFC Mall", "Pacific Place", "Times Square"];
@@ -149,4 +148,29 @@
         }
         document.getElementById("mall").onclick = () => false;
     }
+</script>
+
+<script>
+    async function deleteCoupon(id) {
+        var r = confirm("Confirm Delete?");
+        
+        if (r) {
+            var response = await fetch("/coupon/" + id, {
+                method: "DELETE"
+            });
+
+            if (response.ok) {
+                //var html = await response.text();
+                //alert(html);
+
+                alert("Coupon deleted.")
+                location.assign("/");
+            } else {
+                alert(response.status + ": " + response.statusText);
+            }
+
+        } else {
+            alert("cancelled");
+        }
+    };
 </script>

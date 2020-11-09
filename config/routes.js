@@ -42,7 +42,8 @@ module.exports.routes = {
  'GET /coupon/json': 'CouponController.json',
 
  'GET /coupon/read/:id': 'CouponController.read',
- 'POST /coupon/delete/:id': 'CouponController.delete',
+ //'POST /coupon/delete/:id': 'CouponController.delete',
+ 'DELETE /coupon/delete/:id': 'CouponController.delete',
  'GET /coupon/update/:id': 'CouponController.update',
  'POST /coupon/update/:id': 'CouponController.update',
 

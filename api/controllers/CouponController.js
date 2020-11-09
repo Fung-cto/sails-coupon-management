@@ -51,7 +51,12 @@ module.exports = {
 
         if (!deletedCoupon) return res.notFound();
 
-        return res.ok();
+        if (req.wantsJSON){
+            return res.status(204).send();	    // for ajax request
+        } else {
+            return res.redirect('/');			// for normal request
+        }
+        //return res.ok();
     },
     // action - update
     update: async function (req, res) {
