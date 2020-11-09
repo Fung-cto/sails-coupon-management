@@ -29,6 +29,10 @@ module.exports = {
       defaultsTo: 'visitor'
     },
 
+    coins: {
+      type: "number"
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
