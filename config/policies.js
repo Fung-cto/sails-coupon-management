@@ -22,7 +22,15 @@ module.exports.policies = {
   CouponController: {
     create: 'isAdmin',
     update: 'isAdmin',
-    delete: 'isAdmin'
-  }
+    delete: 'isAdmin',
+    list: 'isAdmin',
+    populate: 'isAdmin'
+  },
+
+  UserController: {
+    add: 'isMember',
+    remove: 'isMember',
+    populate: 'isMember',
+  }  
 
 };

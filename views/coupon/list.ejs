@@ -13,6 +13,7 @@
                     <th>Title</th>
                     <th>Restaurant</th>
                     <th></th>
+                    <th></th>
             </tr>
             <% coupons.forEach( function(coupon) { %>
 
@@ -21,6 +22,7 @@
                 <td><%= coupon.title %></td>
                 <td><%= coupon.restaurant %></td>
                 <td><a href="/coupon/update/<%= coupon.id %>">Update</td>
+                <td><a href="/coupon/<%= coupon.id %>/belong">Redeemed Member</td>
             </tr>
 
             <% }); %>
