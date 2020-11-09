@@ -21,32 +21,38 @@
                 <li><strong>Expiry Date: </strong><%= coupon.expiryDate %></li>
                 <li <% if (coupon.detail == "") { %>style="visibility: hidden;" <% } %>><%= coupon.detail %></li>
             </ul>
-            <button type="button" class="button is-success" onclick="redeemCoupon('<%= coupon.id %>','<%= coupon.id %>')">Redeem</button>
+            <button type="button" class="button is-success"
+                onclick="redeemCoupon('<%= session.userId %>','<%= coupon.id %>')">Redeem</button>
         </div>
     </div>
-    
+
 </div>
 </div>
 </div>
 <script>
     async function redeemCoupon(id, fk) {
         var r = confirm("Confirm Redeem?");
-        
+
         if (r) {
-            var response = await fetch("/user/" + id + "/owners/add/" + fk, {
-                method: "POST"
-            });
+            if (id.coins > fk.coins && fk.quota>0) {
+                id.coins -= fk.coins;
+                fk.quota -= 1;
+                var response = await fetch("/user/" + id + "/owners/add/" + fk, {
+                    method: "POST"
+                });
 
-            if (response.ok) {
-                //var html = await response.text();
-                //alert(html);
+                if (response.ok) {
+                    //var html = await response.text();
+                    //alert(html);
 
-                alert("Coupon redeemed.")
-                location.assign("/");
+                    alert("Coupon redeemed.")
+                    location.assign("/");
+                } else {
+                    alert(response.status + ": " + response.statusText);
+                }
             } else {
-                alert(response.status + ": " + response.statusText);
+                alert("Not enough coins or no quota remain");
             }
-
         } else {
             alert("cancelled");
         }
