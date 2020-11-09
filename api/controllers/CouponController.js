@@ -12,7 +12,7 @@ module.exports = {
     create: async function (req, res) {
         if (req.method == "GET") return res.view('coupon/create');
         var coupon = await Coupon.create(req.body).fetch();
-        return res.status(201).json({ id: coupon.id });
+        return res.status(201).redirect('/coupon/read/'+coupon.id);
     },
     // json function
     json: async function (req, res) {
@@ -75,7 +75,7 @@ module.exports = {
 
             if (!updatedCoupon) return res.notFound();
 
-            return res.ok();
+            return res.redirect('/coupon/read/'+updatedCoupon.id);
         }
     },
     // search function
