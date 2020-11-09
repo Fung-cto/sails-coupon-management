@@ -9,6 +9,9 @@
  * https://sailsjs.com/config/bootstrap
  */
 
+//const Coupon = require('../api/models/Coupon');
+//const User = require('../api/models/User');
+
 module.exports.bootstrap = async function () {
 
   // By convention, this is a good place to set up fake data during development.
@@ -27,8 +30,11 @@ module.exports.bootstrap = async function () {
   // ]);
   // ```
 
+  sails.bcrypt = require('bcryptjs');
+  var salt = await sails.bcrypt.genSalt(10);
+
   if (await Coupon.count() > 0) {
-    return;
+    return generateUsers();
   }
 
   await Coupon.createEach([
@@ -100,5 +106,37 @@ module.exports.bootstrap = async function () {
     }
     // etc.
   ]);
+
+  return generateUsers();
+
+  async function generateUsers() {
+
+    if (await User.count() > 0) {
+      return;
+    }
+
+    var hash = await sails.bcrypt.hash('123456', salt);
+
+    await User.createEach([
+      { username: "admin", password: hash, role:"admin" },
+      { username: "Martin", password: hash, role:"member" },
+      { username: "Kenny", password: hash, role:"visitor" }
+      // etc.
+    ]);
+
+    const mango = await Coupon.findOne({ restaurant: "Mango Tree" });
+    const yoogane = await Coupon.findOne({ restaurant: "Yoogane" });
+    //const admin = await User.findOne({ username: "admin" });
+    const member = await User.findOne({ username: "Martin" });
+
+    //await User.addToCollection(admin.id, 'owners').members(kenny.id);
+    await User.addToCollection(member.id, 'owners').members([mango.id, yoogane.id]);
+
+    /*await User.createEach([
+      { username: "admin", password: '123456' },
+      { username: "boss", password: '123456' },
+      // etc.
+    ]);*/
+  }
 
 };

@@ -49,4 +49,13 @@ module.exports.routes = {
  'GET /coupon/search': 'CouponController.search',
  'GET /coupon/paginate': 'CouponController.paginate',
 
+ 'GET /user': 'UserController.login',
+ 'GET /user/login': 'UserController.login',
+ 'POST /user/login': 'UserController.login',
+ 'POST /user/logout': 'UserController.logout',
+
+ 'GET /coupon/:id/belong': 'CouponController.populate',
+ 'GET /user/:id/owners': 'UserController.populate',
+ 'POST /user/:id/owners/add/:fk': 'UserController.add',
+ 'POST /user/:id/owners/remove/:fk': 'UserController.remove',
 };

@@ -5,6 +5,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+//const Coupon = require("../models/Coupon");
+
 module.exports = {
     // action - create
     create: async function (req, res) {
@@ -113,23 +115,29 @@ module.exports = {
         return res.view('coupon/paginate', { coupons: thoseCoupons, numOfRecords: count });
     },
 
-    
+    // action - paginate
+    paginate: async function (req, res) {
 
-// action - paginate
-paginate: async function (req, res) {
+        var limit = Math.max(req.query.limit, 2) || 2;
+        var offset = Math.max(req.query.offset, 0) || 0;
 
-    var limit = Math.max(req.query.limit, 2) || 2;
-    var offset = Math.max(req.query.offset, 0) || 0;
+        var someCoupons = await Coupon.find({
+            limit: limit,
+            skip: offset
+        });
 
-    var someCoupons = await Coupon.find({
-        limit: limit,
-        skip: offset
-    });
+        var count = await Coupon.count();
 
-    var count = await Coupon.count();
+        return res.view('coupon/paginate', { coupons: someCoupons, numOfRecords: count });
+    },
+    // action - populate
+    populate: async function (req, res) {
 
-    return res.view('coupon/paginate', { coupons: someCoupons, numOfRecords: count });
-},
+        var coupon = await Coupon.findOne(req.params.id).populate("belong");
 
+        if (!coupon) return res.notFound();
+
+        return res.json(coupon);
+    },
 };
 
