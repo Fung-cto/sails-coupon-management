@@ -23,6 +23,7 @@ module.exports = {
         // Reuse existing session 
         if (!req.session.username) {
             req.session.username = user.username;
+            req.session.role = user.role;
             return res.json(user);
         }
 
@@ -32,6 +33,7 @@ module.exports = {
             if (err) return res.serverError(err);
 
             req.session.username = user.username;
+            req.session.role = user.role;
             return res.json(user);
         });
     },
@@ -42,7 +44,7 @@ module.exports = {
 
             if (err) return res.serverError(err);
 
-            return res.ok();
+            return res.redirect('/');
         });
     },
 

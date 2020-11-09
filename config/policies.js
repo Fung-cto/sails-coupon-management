@@ -19,4 +19,10 @@ module.exports.policies = {
 
   // '*': true,
 
+  CouponController: {
+    create: 'isAdmin',
+    update: 'isAdmin',
+    delete: 'isAdmin'
+  }
+
 };
