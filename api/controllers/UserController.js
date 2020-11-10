@@ -73,6 +73,22 @@ module.exports = {
         //return res.json(user);
     },
 
+    check: async function (req, res) {
+
+        if (!await User.findOne(req.params.id)) return res.status(404).json("User not found.");
+        
+        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", {id: req.params.id});
+    
+        //if (!thatCoupon) return res.status(404).json("Coupon not found.");
+            
+        if (thatCoupon.belong.length > 0)
+            return res.status(409);   // conflict
+        
+        //await User.addToCollection(req.params.id, "owners").members(req.params.fk);
+    
+        return res.ok();
+    },
+
     add: async function (req, res) {
 
         if (!await User.findOne(req.params.id)) return res.status(404).json("User not found.");

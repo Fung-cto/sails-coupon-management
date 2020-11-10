@@ -120,8 +120,8 @@ module.exports.bootstrap = async function () {
     await User.createEach([
       { username: "admin", password: hash, role:"admin" },
       { username: "martin", password: hash, role:"member", coins:5000 },
+      { username: "kenny", password: hash, role:"member", coins:10000 },
       { username: "joe", password: hash, role:"member", coins:20000 },
-      { username: "kenny", password: hash, role:"visitor" }
       // etc.
     ]);
 

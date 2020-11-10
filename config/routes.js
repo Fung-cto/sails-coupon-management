@@ -58,5 +58,6 @@ module.exports.routes = {
  'GET /coupon/:id/belong': 'CouponController.populate',
  'GET /user/:id/owners': 'UserController.populate',
  'POST /user/:id/owners/add/:fk': 'UserController.add',
+ 'GET /user/:id/owners/check/:fk': 'UserController.check',
  'POST /user/:id/owners/remove/:fk': 'UserController.remove',
 };
