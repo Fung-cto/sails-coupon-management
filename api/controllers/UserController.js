@@ -46,7 +46,12 @@ module.exports = {
 
             if (err) return res.serverError(err);
 
-            return res.redirect('/');
+            if (req.wantsJSON){
+                return res.status(200).send();	    // for ajax request
+            } else {
+                return res.redirect('/');			// for normal request
+            }
+            
         });
     },
 
@@ -57,8 +62,14 @@ module.exports = {
         if (!thatUser) return res.notFound();
 
         //if (thatUser.id != session.userId) return res.forbidden();
+
+        if (req.wantsJSON){
+            return res.status(200).send();	    // for ajax request
+        } else {
+            return res.view('user/redeem', { user:thatUser });			// for normal request
+        }
     
-        return res.view('user/redeem', { user:thatUser });
+        //return res.view('user/redeem', { user:thatUser });
         //return res.json(user);
     },
 

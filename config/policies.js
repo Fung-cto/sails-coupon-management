@@ -23,14 +23,14 @@ module.exports.policies = {
     create: 'isAdmin',
     update: 'isAdmin',
     delete: 'isAdmin',
-    //list: 'isAdmin',
-    //populate: 'isAdmin'
+    list: 'isAdmin',
+    populate: 'isAdmin'
   },
 
   UserController: {
     add: 'isMember',
     remove: 'isMember',
-    //populate: 'isMember',
+    populate: 'isMember',
   }  
 
 };

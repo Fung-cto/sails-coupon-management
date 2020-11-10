@@ -5,6 +5,8 @@
 
 </head>
 
+<% if (user.id == session.userId) {%>
+
 <table class="table is-striped is-fullwidth">
     <tr>
         <th>
@@ -21,8 +23,6 @@
     <% user.owners.forEach( function(coupon) { %>
 
     <div class="column is-one-third">
-
-
         <div class="card mb-4">
             <div class="card-image">
                 <figure class="image is-4$dimensions">
@@ -41,3 +41,7 @@
     </div>
     <% }); %>
 </div>
+
+<% } else { %>
+    <h1 class="title">Unauthorized Access!</h4>
+<% } %>
