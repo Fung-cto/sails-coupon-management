@@ -52,11 +52,14 @@ module.exports = {
 
     populate: async function (req, res) {
 
-        var user = await User.findOne(req.params.id).populate("owners");
+        var thatUser = await User.findOne(req.params.id).populate("owners");
     
-        if (!user) return res.notFound();
+        if (!thatUser) return res.notFound();
+
+        //if (thatUser.id != session.userId) return res.forbidden();
     
-        return res.json(user);
+        return res.view('user/redeem', { user:thatUser });
+        //return res.json(user);
     },
 
     add: async function (req, res) {
