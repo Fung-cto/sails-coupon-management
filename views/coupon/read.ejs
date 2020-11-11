@@ -44,7 +44,7 @@
                 isredeemed = true;
             }
         })*/
-        if (response.status == 409) {} else {
+        if (response.status == 409) { } else {
             var p = document.getElementById("redeemButton");
             var newElement = document.createElement('span');
             newElement.innerHTML = '<button type="button" class="button is-success" onclick="redeemCoupon(\'<%= session.userId %>\',\'<%= coupon.id %>\')">Redeem</button>' //<button type="button" class="button is-success" onclick="redeemCoupon('<%= session.userId %>','<%= coupon.id %>')">Redeem</button>;
@@ -59,19 +59,29 @@
         var r = confirm("Confirm Redeem?");
 
         if (r) {
-            if (id.coins > fk.coins && fk.quota > 0) {
-                id.coins -= fk.coins;
-                fk.quota -= 1;
+            var res = await fetch("/coupon/read/" + fk, {
+                method: "GET"
+            });
+            var res2 = await fetch("/user/" + id + "/owners", {
+                method: "GET"
+            });
+            var coupon = await res.json();
+            var user = await res2.json();
+            if (user.coins >= coupon.coins && coupon.quota > 0) {
                 var response = await fetch("/user/" + id + "/owners/add/" + fk, {
                     method: "POST"
                 });
 
                 if (response.ok) {
-                    //var html = await response.text();
-                    //alert(html);
-
-                    alert("Coupon redeemed.")
-                    location.assign("/");
+                    user.coins -= coupon.coins;
+                    coupon.quota -= 1;
+                    console.log(user.id);
+                    console.log(user.coins);
+                    var response = await fetch("/user/update/" + user.id, {
+                        method: "POST"
+                    });
+                    //alert("Coupon redeemed.")
+                    //location.assign("/");
                 } else {
                     alert(response.status + ": " + response.statusText);
                 }

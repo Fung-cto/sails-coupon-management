@@ -25,6 +25,7 @@ module.exports = {
             req.session.username = user.username;
             req.session.userId = user.id;
             req.session.role = user.role;
+            req.session.coins = user.coins;
             return res.json(user);
         }
 
@@ -36,6 +37,7 @@ module.exports = {
             req.session.username = user.username;
             req.session.userId = user.id;
             req.session.role = user.role;
+            req.session.coins = user.coins;
             return res.json(user);
         });
     },
@@ -46,29 +48,29 @@ module.exports = {
 
             if (err) return res.serverError(err);
 
-            if (req.wantsJSON){
+            if (req.wantsJSON) {
                 return res.status(200).send();	    // for ajax request
             } else {
                 return res.redirect('/');			// for normal request
             }
-            
+
         });
     },
 
     populate: async function (req, res) {
 
         var thatUser = await User.findOne(req.params.id).populate("owners");
-    
+
         if (!thatUser) return res.notFound();
 
         //if (thatUser.id != session.userId) return res.forbidden();
 
-        if (req.wantsJSON){
-            return res.status(200).send();	    // for ajax request
+        if (req.wantsJSON) {
+            return res.status(200).json(thatUser);	    // for ajax request
         } else {
-            return res.view('user/redeem', { user:thatUser });			// for normal request
+            return res.view('user/redeem', { user: thatUser });			// for normal request
         }
-    
+
         //return res.view('user/redeem', { user:thatUser });
         //return res.json(user);
     },
@@ -76,48 +78,57 @@ module.exports = {
     check: async function (req, res) {
 
         if (!await User.findOne(req.params.id)) return res.status(404).json("User not found.");
-        
-        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", {id: req.params.id});
-    
+
+        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", { id: req.params.id });
+
         //if (!thatCoupon) return res.status(404).json("Coupon not found.");
-            
+
         if (thatCoupon.belong.length > 0)
             return res.status(409);   // conflict
-        
+
         //await User.addToCollection(req.params.id, "owners").members(req.params.fk);
-    
+
         return res.ok();
     },
 
     add: async function (req, res) {
 
         if (!await User.findOne(req.params.id)) return res.status(404).json("User not found.");
-        
-        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", {id: req.params.id});
-    
+
+        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", { id: req.params.id });
+
         if (!thatCoupon) return res.status(404).json("Coupon not found.");
-            
+
         if (thatCoupon.belong.length > 0)
             return res.status(409).json("Already added.");   // conflict
-        
+
         await User.addToCollection(req.params.id, "owners").members(req.params.fk);
-    
+
         return res.ok();
     },
 
     remove: async function (req, res) {
 
         if (!await User.findOne(req.params.id)) return res.status(404).json("User not found.");
-        
-        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", {id: req.params.id});
-        
+
+        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", { id: req.params.id });
+
         if (!thatCoupon) return res.status(404).json("Coupon not found.");
-    
+
         if (thatCoupon.belong.length == 0)
             return res.status(409).json("Nothing to delete.");    // conflict
-    
+
         await User.removeFromCollection(req.params.id, "owners").members(req.params.fk);
-    
+
+        return res.ok();
+    },
+
+    update: async function (req, res) {
+
+        var updatedUser = await User.updateOne(req.params.id).set(req.body);
+
+        if (!updatedUser) return res.notFound();
+
         return res.ok();
     },
 };

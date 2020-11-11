@@ -12,7 +12,7 @@ module.exports = {
     create: async function (req, res) {
         if (req.method == "GET") return res.view('coupon/create');
         var coupon = await Coupon.create(req.body).fetch();
-        return res.status(201).redirect('/coupon/read/'+coupon.id);
+        return res.status(201).redirect('/coupon/read/' + coupon.id);
     },
     // json function
     json: async function (req, res) {
@@ -42,7 +42,12 @@ module.exports = {
 
         if (!thatCoupon) return res.notFound();
 
-        return res.view('coupon/read', { coupon: thatCoupon });
+        if (req.wantsJSON) {
+            return res.json(thatCoupon);	    // for ajax request
+        } else {
+            return res.view('coupon/read', { coupon: thatCoupon });			// for normal request
+        }
+
     },
     // action - delete 
     delete: async function (req, res) {
@@ -51,8 +56,8 @@ module.exports = {
 
         if (!deletedCoupon) return res.notFound();
 
-        if (req.wantsJSON){
-            return res.status(204).send();	    // for ajax request
+        if (req.wantsJSON) {
+            return res.status(204).json();	    // for ajax request
         } else {
             return res.redirect('/');			// for normal request
         }
@@ -75,7 +80,7 @@ module.exports = {
 
             if (!updatedCoupon) return res.notFound();
 
-            return res.redirect('/coupon/read/'+updatedCoupon.id);
+            return res.redirect('/coupon/read/' + updatedCoupon.id);
         }
     },
     // search function
@@ -106,18 +111,21 @@ module.exports = {
         var parsedValidDate = req.query.validOn;
         if (parsedValidDate) whereClause.expiryDate = { '<=': parsedValidDate };
 
-        var thoseCoupons = await Coupon.find({
-            limit: limit,
-            skip: offset,
-            where: whereClause,
-            sort: 'region'
-        });
+        if (req.wantsJSON) {
+            var thoseCoupons = await Coupon.find({
+                limit: limit,
+                skip: offset,
+                where: whereClause,
+                sort: 'region'
+            });
 
-        var count = await Coupon.count({
-            where: whereClause,
-        });
-
-        return res.view('coupon/paginate', { coupons: thoseCoupons, numOfRecords: count });
+            return res.json(thoseCoupons);
+        } else {
+            var count = await Coupon.count({
+                where: whereClause,
+            });
+            return res.view('coupon/search', { coupons: thoseCoupons, numOfRecords: count });
+        }
     },
 
     // action - paginate

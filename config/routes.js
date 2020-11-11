@@ -60,4 +60,5 @@ module.exports.routes = {
  'POST /user/:id/owners/add/:fk': 'UserController.add',
  'GET /user/:id/owners/check/:fk': 'UserController.check',
  'POST /user/:id/owners/remove/:fk': 'UserController.remove',
+ 'POST /user/update/:id': 'UserController.update',
 };
