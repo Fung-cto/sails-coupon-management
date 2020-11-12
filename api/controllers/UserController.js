@@ -102,9 +102,31 @@ module.exports = {
         if (thatCoupon.belong.length > 0)
             return res.status(409).json("Already added.");   // conflict
 
-        await User.addToCollection(req.params.id, "owners").members(req.params.fk);
+        var coupon = await Coupon.findOne(req.params.fk);
+        var user = await User.findOne(req.params.id);
 
-        return res.ok();
+        if (user.coins >= coupon.coins) {
+            if (coupon.quota > 0) {
+                await User.addToCollection(req.params.id, "owners").members(req.params.fk);
+                var coinsUpdate = {
+                    coins: user.coins - coupon.coins
+                }
+                var quotaUpdate = {
+                    quota: coupon.quota - 1
+                }
+                var updatedUser = await User.updateOne(user.id).set(coinsUpdate);
+                var updateCoupon = await Coupon.updateOne(coupon.id).set(quotaUpdate);
+                if (req.wantsJSON) {
+                    return res.ok();	    // for ajax request
+                } else {
+                    return res.redirect('user/' + user.id + '/owners');			// for normal request
+                }
+            } else {
+                return res.status().json("No quota remain");
+            }
+        } else {
+            return res.status().json("Not enough coins");
+        }
     },
 
     remove: async function (req, res) {
@@ -119,15 +141,6 @@ module.exports = {
             return res.status(409).json("Nothing to delete.");    // conflict
 
         await User.removeFromCollection(req.params.id, "owners").members(req.params.fk);
-
-        return res.ok();
-    },
-
-    update: async function (req, res) {
-
-        var updatedUser = await User.updateOne(req.params.id).set(req.coins);
-
-        if (!updatedUser) return res.notFound();
 
         return res.ok();
     },

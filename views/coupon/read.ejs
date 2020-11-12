@@ -38,18 +38,11 @@
         var response = await fetch("/user/" + id + "/owners/check/" + fk, {
             method: "GET"
         });
-        //var isredeemed = false;
-        /*user.owners.forEach(function (coupon) {
-            if (coupon.id == fk) {
-                isredeemed = true;
-            }
-        })*/
         if (response.status == 409) { } else {
             var p = document.getElementById("redeemButton");
             var newElement = document.createElement('span');
             newElement.innerHTML = '<button type="button" class="button is-success" onclick="redeemCoupon(\'<%= session.userId %>\',\'<%= coupon.id %>\')">Redeem</button>' //<button type="button" class="button is-success" onclick="redeemCoupon('<%= session.userId %>','<%= coupon.id %>')">Redeem</button>;
             p.appendChild(newElement);
-            //document.getElementById("redeemButton").style.visibility = "hidden";
         }
 
     }
@@ -57,7 +50,6 @@
 <script>
     async function redeemCoupon(id, fk) {
         var r = confirm("Confirm Redeem?");
-
         if (r) {
             var res = await fetch("/coupon/read/" + fk, {
                 method: "GET"
@@ -67,31 +59,25 @@
             });
             var coupon = await res.json();
             var user = await res2.json();
-            if (user.coins >= coupon.coins && coupon.quota > 0) {
-                var response = await fetch("/user/" + id + "/owners/add/" + fk, {
-                    method: "POST"
-                });
-
-                if (response.ok) {
-                    user.coins -= coupon.coins;
-                    coupon.quota -= 1;
-                    console.log(user.id);
-                    console.log(user.coins);
-                    var response = await fetch("/user/update/" + user, {
+            if (user.coins >= coupon.coins) {
+                if (coupon.quota > 0) {
+                    var response = await fetch("/user/" + id + "/owners/add/" + fk, {
                         method: "POST"
                     });
-                    console.log(user.id);
-                    console.log(user.coins);
-                    //alert("Coupon redeemed.")
-                    //location.assign("/");
+                    if (response.ok) {
+                        alert("Coupon redeemed.")
+                        location.assign("/user/" + id + "/owners");
+                    } else {
+                        alert(response.status + ": " + response.statusText);
+                    }
                 } else {
-                    alert(response.status + ": " + response.statusText);
+                    alert("No quota remain.")
                 }
             } else {
-                alert("Not enough coins or no quota remain");
+                alert("Not enough coins.");
             }
         } else {
-            alert("cancelled");
+            //alert("cancelled");
         }
     };
 </script>

@@ -103,7 +103,18 @@ module.exports.bootstrap = async function () {
       coins: 300,
       expiryDate: "2020-10-19",
       detail: "kowloon detail"
-    }
+    },
+    {
+      title: "Free meal",
+      restaurant: "Old Place",
+      region: "New Territories",
+      mall: "New Town Plaza",
+      image: "https://images.unsplash.com/photo-1531973968078-9bb02785f13d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=977&q=80",
+      quota: 2,
+      coins: 300,
+      expiryDate: "2030-10-19",
+      detail: "2 quota only!!"
+    },
     // etc.
   ]);
 
@@ -121,23 +132,9 @@ module.exports.bootstrap = async function () {
       { username: "admin", password: hash, role:"admin" },
       { username: "martin", password: hash, role:"member", coins:5000 },
       { username: "kenny", password: hash, role:"member", coins:10000 },
-      { username: "joe", password: hash, role:"member", coins:2000000 },
+      { username: "fion", password: hash, role:"member", coins:2000000 },
       // etc.
     ]);
-
-    //const mango = await Coupon.findOne({ restaurant: "Mango Tree" });
-    //const yoogane = await Coupon.findOne({ restaurant: "Yoogane" });
-    //const admin = await User.findOne({ username: "admin" });
-    //const member = await User.findOne({ username: "Martin" });
-
-    //await User.addToCollection(admin.id, 'owners').members(kenny.id);
-    //await User.addToCollection(member.id, 'owners').members([mango.id, yoogane.id]);
-
-    /*await User.createEach([
-      { username: "admin", password: '123456' },
-      { username: "boss", password: '123456' },
-      // etc.
-    ]);*/
   }
 
 };
