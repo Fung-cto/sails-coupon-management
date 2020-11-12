@@ -125,7 +125,7 @@ module.exports = {
 
     update: async function (req, res) {
 
-        var updatedUser = await User.updateOne(req.params.id).set(req.body);
+        var updatedUser = await User.updateOne(req.params.id).set(req.coins);
 
         if (!updatedUser) return res.notFound();
 

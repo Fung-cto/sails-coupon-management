@@ -77,9 +77,11 @@
                     coupon.quota -= 1;
                     console.log(user.id);
                     console.log(user.coins);
-                    var response = await fetch("/user/update/" + user.id, {
+                    var response = await fetch("/user/update/" + user, {
                         method: "POST"
                     });
+                    console.log(user.id);
+                    console.log(user.coins);
                     //alert("Coupon redeemed.")
                     //location.assign("/");
                 } else {
