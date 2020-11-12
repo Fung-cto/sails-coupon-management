@@ -4,11 +4,13 @@
     <title>Q-Pon | Search</title>
 
 </head>
+<body onload="fetchPage('region=<%= req.query.region %>&maxCoins=<%= req.query.maxCoins %>&minCoins=<%= req.query.minCoins %>&validOn=<%= req.query.validOn %>', 2, 0)">
+    
 <div class="columns features is-vcentered is-multiline" id="p2"></div>
 
 <nav class="pagination" role="navigation" aria-label="pagination">
-    <a class="pagination-previous" id="previousButton">Previous</a>
-    <a class="pagination-next" id="nextButton">Next page</a>
+    <button class="pagination-previous" id="previousButton">Previous</button>
+    <button class="pagination-next" id="nextButton">Next page</button>
     <ul class="pagination-list">
         <li>
             <a class="pagination-link" id="firstLink">1</a>
@@ -33,7 +35,7 @@
         </li>
     </ul>
 </nav>
-
+</body>
 <script>
     function setPagination(limit, offset) {
 
@@ -45,6 +47,7 @@
         var firstLink = document.getElementById("firstLink");
         var lastLink = document.getElementById("lastLink");
         var numOfRecords = parseInt("<%= numOfRecords %>");
+        var submitButton = document.getElementById("submitButton");
         //var limit = Math.max(parseInt("<%= req.query.limit %>"), 2) || 2;
         //var offset = Math.max(parseInt("<%= req.query.offset %>"), 0) || 0;
         var where = "region=<%= req.query.region %>&maxCoins=<%= req.query.maxCoins %>&minCoins=<%= req.query.minCoins %>&validOn=<%= req.query.validOn %>";
@@ -65,6 +68,7 @@
         nextLink.onclick = function () { fetchPage(where, limit, offset + limit) };
         nextButton.onclick = function () { fetchPage(where, limit, offset + limit) };
         lastLink.onclick = function () { fetchPage(where, limit, (Math.ceil(numOfRecords / limit) - 1) * limit) };
+        submitButton.onclick = function () { fetchPage(where, limit, 0) };
         var currentPageNumber = Math.floor(offset / limit) + 1;
 
         previousLink.innerHTML = currentPageNumber - 1;
@@ -97,9 +101,10 @@
 
 <script>
     async function fetchPage(where, limit, offset) {
+        console.log(where, limit, offset);
         var response = await fetch("/coupon/search?" + where + "&p?limit=" + limit + "&offset=" + offset);
         if (response.ok) {
-            setPagination(limit, offset);
+            //setPagination(limit, offset);
             var coupons = await response.json();
             var dynamicCode = '';
             coupons.forEach(function (coupon) {
@@ -124,7 +129,7 @@
                     '</div>';
             });
             document.querySelector("#p2").innerHTML = dynamicCode +
-                '<form action="/coupon/search?" method="get">' +
+                '<form>' +
                 '<div class="column">'+
             '<div class="field">'+
             '<label class="label">Region</label>'+
@@ -159,7 +164,7 @@
             '</div>'+
             '<div class="field">'+
             '<div class="control">'+
-            '<button class="button is-link" onlick="fetchPage(req.query,limit,offset)">Submit</button>'+
+            '<button id="submitButton" class="button is-link">Submit</button>'+
             '</div>'+
             '</div>'+
             '</div>'+
@@ -169,5 +174,4 @@
             alert(response.status + ": " + response.statusText);
         }
     };
-    fetchPage(0, 2, 0);
 </script>
