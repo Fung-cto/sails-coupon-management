@@ -181,9 +181,9 @@
   <script src="/dependencies/sails.io.js"></script>
   <!--SCRIPTS END-->
   <script>
-    async function redeemedCoupons(id) {
+    async function redeemedCoupons() {
 
-      var response = await fetch("/user/" + id + "/owners", {
+      var response = await fetch("/user/owners", {
         method: "GET"
       });
 
@@ -192,7 +192,7 @@
         //alert(html);
 
         //alert("Coupon redeemed.")
-        location.assign("/user/" + id + "/owners");
+        location.assign("/user/owners");
       } else {
         alert(response.status + ": " + response.statusText);
       }

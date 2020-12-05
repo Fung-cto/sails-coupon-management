@@ -59,7 +59,7 @@ module.exports = {
 
     populate: async function (req, res) {
 
-        var thatUser = await User.findOne(req.params.id).populate("owners");
+        var thatUser = await User.findOne(req.session.userId).populate("owners");
 
         if (!thatUser) return res.notFound();
 
@@ -93,9 +93,9 @@ module.exports = {
 
     add: async function (req, res) {
 
-        if (!await User.findOne(req.params.id)) return res.status(404).json("User not found.");
+        if (!await User.findOne(req.session.userId)) return res.status(404).json("User not found.");
 
-        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", { id: req.params.id });
+        var thatCoupon = await Coupon.findOne(req.params.fk).populate("belong", { id: req.session.userId });
 
         if (!thatCoupon) return res.status(404).json("Coupon not found.");
 
@@ -103,11 +103,11 @@ module.exports = {
             return res.status(409).json("Already added.");   // conflict
 
         var coupon = await Coupon.findOne(req.params.fk);
-        var user = await User.findOne(req.params.id);
+        var user = await User.findOne(req.session.userId);
 
         if (user.coins >= coupon.coins) {
             if (coupon.quota > 0) {
-                await User.addToCollection(req.params.id, "owners").members(req.params.fk);
+                await User.addToCollection(req.session.userId, "owners").members(req.params.fk);
                 var coinsUpdate = {
                     coins: user.coins - coupon.coins
                 }

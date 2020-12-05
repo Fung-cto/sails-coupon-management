@@ -54,19 +54,19 @@
             var res = await fetch("/coupon/read/" + fk, {
                 method: "GET"
             });
-            var res2 = await fetch("/user/" + id + "/owners", {
+            var res2 = await fetch("/user/owners", {
                 method: "GET"
             });
             var coupon = await res.json();
             var user = await res2.json();
             if (user.coins >= coupon.coins) {
                 if (coupon.quota > 0) {
-                    var response = await fetch("/user/" + id + "/owners/add/" + fk, {
+                    var response = await fetch("/user/owners/add/" + fk, {
                         method: "POST"
                     });
                     if (response.ok) {
                         alert("Coupon redeemed.")
-                        location.assign("/user/" + id + "/owners");
+                        location.assign("/user/owners");
                     } else {
                         alert(response.status + ": " + response.statusText);
                     }
