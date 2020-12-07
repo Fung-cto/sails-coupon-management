@@ -86,14 +86,6 @@ module.exports = {
     // search function
     search: async function (req, res) {
 
-        var limit = Math.max(req.query.limit, 2) || 2;
-        var offset = Math.max(req.query.offset, 0) || 0;
-
-        var someCoupons = await Coupon.find({
-            limit: limit,
-            skip: offset
-        });
-
         var whereClause = {};
 
         if (req.query.region) whereClause.region = { contains: req.query.region };
@@ -112,6 +104,8 @@ module.exports = {
         if (parsedValidDate) whereClause.expiryDate = { '<=': parsedValidDate };
 
         if (req.wantsJSON) {
+            var limit = Math.max(req.query.limit, 2) || 2;
+            var offset = Math.max(req.query.offset, 0) || 0;
             var thoseCoupons = await Coupon.find({
                 limit: limit,
                 skip: offset,

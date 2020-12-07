@@ -102,7 +102,7 @@
 <script>
     async function fetchPage(where, limit, offset) {
         console.log(where, limit, offset);
-        var response = await fetch("/coupon/search?" + where + "&p?limit=" + limit + "&offset=" + offset);
+        var response = await fetch("/coupon/search?" + where + "&limit=" + limit + "&offset=" + offset);
         if (response.ok) {
             //setPagination(limit, offset);
             var coupons = await response.json();
